@@ -94,6 +94,10 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -119,9 +123,6 @@
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
-                        <goals>
-                            <goal>wsdl2java</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

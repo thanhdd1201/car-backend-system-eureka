@@ -2,9 +2,7 @@ package com.udacity.vehicles.api;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.udacity.vehicles.client.maps.MapsClient;
@@ -18,6 +16,7 @@ import com.udacity.vehicles.service.CarService;
 import java.net.URI;
 import java.util.Collections;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
+@FixMethodOrder
 public class CarControllerTest {
 
     @Autowired
@@ -99,6 +99,17 @@ public class CarControllerTest {
     public void findCar() throws Exception {
         Car car = getCar();
         mvc.perform(get("/cars/{id}", car.getId()).accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateCar() throws Exception {
+        Car car = getCar();
+        car.setCondition(Condition.NEW);
+        mvc.perform(put("/cars/{id}", car.getId())
+                        .content(json.write(car).getJson())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
     }
 
